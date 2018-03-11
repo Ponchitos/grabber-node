@@ -1,0 +1,80 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "0.0.1"
+  title: "grabber"
+schemes:
+  - http
+  - https
+basePath: /
+paths:
+  /news:
+    post:
+      tags:
+      - news
+      summary: "Create new record"
+      parameters:
+      - in: body
+        name: body
+        description: News body
+        required: true
+        schema:
+          $ref: "#/definitions/News"
+      responses:
+        201:
+          description: News successfuly added
+          schema:
+            $ref: "#/definitions/News"
+    get:
+      tags:
+      - news
+      summary: Get list of news
+      parameters:
+        - in: query
+          name: offset
+          description: Offset
+          required: false
+          type: number
+          minimum: 0
+        - in: query
+          name: limit
+          description: Count of posts to get
+          required: false
+          type: number
+          maximum: 100
+      responses:
+        200:
+          description: List of news
+          schema:
+            $ref: "#/definitions/ListOfNews"
+definitions:
+  News:
+    type: object
+    properties:
+      id:
+        type: string
+      text:
+        type: string
+    required:
+      - text
+  List:
+    type: object
+    properties:
+      id:
+        type: string
+      text:
+        type: string
+      sentiment:
+        type: string
+    required:
+      - text
+      - sentiment
+  ListOfNews:
+     type: object
+     properties:
+      totalCount:
+        type: number
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/List"
